@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Network | RCPIT Alumni Network</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://www.rcpit.ac.in/images/logo.png">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { background-color: #f8fafc; }
+        .network-container { display: grid; grid-template-columns: 280px 1fr; gap: 2.5rem; padding-top: 100px; padding-bottom: 80px; }
+        .network-sidebar { position: sticky; top: 100px; height: fit-content; }
+        .side-card { background: white; border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow-soft); margin-bottom: 1.5rem; border: 1px solid #f1f5f9; }
+        .nav-list { list-style: none; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 10px; color: var(--text-muted); font-weight: 500; cursor: pointer; transition: var(--transition); }
+        .nav-item:hover, .nav-item.active { background: rgba(43, 82, 106, 0.05); color: var(--primary); }
+        .network-tabs { display: flex; gap: 15px; margin-bottom: 25px; background: white; padding: 10px; border-radius: 15px; box-shadow: var(--shadow-soft); }
+        .network-tab { flex: 1; text-align: center; padding: 10px; border-radius: 10px; cursor: pointer; font-weight: 600; color: var(--text-muted); transition: var(--transition); }
+        .network-tab.active { background: var(--primary); color: white; }
+        .directory-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+        .profile-card { background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-soft); border: 1px solid #f1f5f9; transition: var(--transition); }
+        .profile-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-strong); }
+        .card-cover { height: 80px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); }
+        .card-body { padding: 0 1.5rem 1.5rem; text-align: center; margin-top: -40px; }
+        .profile-avatar { width: 80px; height: 80px; border-radius: 20px; background: white; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 700; color: var(--primary); margin: 0 auto 1rem; box-shadow: var(--shadow-soft); border: 3px solid white; overflow: hidden; }
+        .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-card h3 { font-size: 1.2rem; color: var(--primary-dark); margin-bottom: 4px; }
+        .profile-card .tag-line { font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 12px; height: 20px; overflow: hidden; }
+        .card-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #f1f5f9; }
+        .btn-follow { background: var(--primary); color: white; border: none; padding: 8px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: var(--transition); }
+        .btn-follow.following { background: #f1f5f9; color: var(--text-muted); }
+        .btn-message { background: white; color: var(--primary); border: 1px solid var(--primary); padding: 8px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        
+        /* Navbar additions */
+        .profile-avatar-xs img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar scrolled">
+        <div class="container nav-container">
+            <div class="logo-container">
+                <a href="profile.html" class="nav-profile-trigger" id="navProfileTrigger">
+                    <div class="profile-avatar-xs" id="navAvatar">U</div>
+                    <span class="nav-user-name" id="navUserName">User</span>
+                </a>
+                <a href="index.html" class="logo-group">
+                    <span class="logo-sub">RCPIT Networks</span>
+                    <span class="logo-text">Professional <span style="color: var(--accent);">Directory</span></span>
+                </a>
+            </div>
+            <div class="nav-menu">
+                <ul>
+                    <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                    <li><a href="alumni-list.html" class="nav-link active">Network</a></li>
+                    <li><a href="messages.html" class="nav-link">Messages</a></li>
+                    <li><a href="jobs.html" class="nav-link">Jobs</a></li>
+                </ul>
+            </div>
+            <div class="nav-btns">
+                <a href="#" class="btn btn-outline btn-sm" id="logoutBtn">Sign Out</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container network-container">
+        <!-- Sidebar -->
+        <aside class="network-sidebar">
+            <div class="side-card">
+                <div class="profile-avatar" id="myAvatar">U</div>
+                <h3 id="myName" style="text-align: center; margin-bottom: 5px;">User Name</h3>
+                <p id="myRole" style="text-align: center; font-size: 0.8rem; color: var(--text-muted);">RCPIT Member</p>
+            </div>
+            <div class="side-card">
+                <h4 class="font-outfit" style="margin-bottom: 1rem;">My Network</h4>
+                <div class="nav-list">
+                    <div class="nav-item active"><i class="fas fa-user-friends"></i> Connections <span id="connCount" style="margin-left: auto;">24</span></div>
+                    <div class="nav-item"><i class="fas fa-users"></i> Following <span style="margin-left: auto;">12</span></div>
+                    <div class="nav-item"><i class="fas fa-user-check"></i> Followers <span style="margin-left: auto;">45</span></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="network-main">
+            <div class="network-tabs">
+                <div class="network-tab active" onclick="switchNetwork('alumni')">Alumni <span id="alumniCount">0</span></div>
+                <div class="network-tab" onclick="switchNetwork('student')">Students <span id="studentCount">0</span></div>
+            </div>
+
+            <div class="search-container" style="margin-bottom: 25px;">
+                <div class="search-glass" style="margin: 0; max-width: none;">
+                    <i class="fas fa-search" style="margin-left: 15px; color: var(--text-muted);"></i>
+                    <input type="text" id="directorySearch" placeholder="Search professionals by name, skill, or batch...">
+                </div>
+            </div>
+
+            <div id="directoryGrid" class="directory-grid">
+                <!-- Data JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border: none;">
+                <p>&copy; 2026 R C Patel Institute of Technology. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8080/api';
+        let currentUser = null;
+        let allUsers = [];
+        let currentView = 'alumni';
+
+        // Check Login State
+        (function() {
+            const userJson = localStorage.getItem('user');
+            if (userJson) {
+                currentUser = JSON.parse(userJson);
+                
+                // Navbar & Sidebar updates
+                updateClientView();
+            } else {
+                window.location.href = 'login.html';
+            }
+
+            fetchUsers();
+            
+            // Logout Logic
+            document.getElementById('logoutBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('user');
+                window.location.href = 'login.html';
+            });
+        })();
+
+        function updateClientView() {
+            const initials = currentUser.fullName.split(' ').map(n => n[0]).join('');
+            
+            // Navbar
+            const navAvatar = document.getElementById('navAvatar');
+            const navUserName = document.getElementById('navUserName');
+            if (currentUser.profilePicture) {
+                navAvatar.innerHTML = `<img src="${currentUser.profilePicture}" alt="Avatar">`;
+            } else {
+                navAvatar.textContent = initials;
+            }
+            if(navUserName) navUserName.textContent = currentUser.fullName.split(' ')[0];
+
+            // Sidebar
+            const myAvatar = document.getElementById('myAvatar');
+            if (currentUser.profilePicture) {
+                myAvatar.innerHTML = `<img src="${currentUser.profilePicture}" alt="Avatar">`;
+            } else {
+                myAvatar.textContent = initials;
+            }
+            document.getElementById('myName').innerText = currentUser.fullName;
+            document.getElementById('myRole').innerText = `RCPIT ${currentUser.role || 'Member'}`;
+        }
+
+        async function fetchUsers() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/users`);
+                allUsers = await response.json();
+                updateStats();
+                renderDirectory();
+            } catch (error) { console.error(error); }
+        }
+
+        function updateStats() {
+            const alumniCount = allUsers.filter(u => (u.role || '').toLowerCase() === 'alumni').length;
+            const studentCount = allUsers.filter(u => (u.role || '').toLowerCase() === 'student').length;
+            document.getElementById('alumniCount').innerText = alumniCount;
+            document.getElementById('studentCount').innerText = studentCount;
+        }
+
+        function switchNetwork(role) {
+            currentView = role;
+            document.querySelectorAll('.network-tab').forEach(t => {
+                t.classList.toggle('active', t.innerText.toLowerCase().includes(role));
+            });
+            renderDirectory();
+        }
+
+        function renderDirectory() {
+            const grid = document.getElementById('directoryGrid');
+            const search = document.getElementById('directorySearch').value.toLowerCase();
+            
+            const filtered = allUsers.filter(u => 
+                u.id !== (currentUser ? currentUser.id : null) &&
+                (u.role || 'Member').toLowerCase() === currentView.toLowerCase() && 
+                (u.fullName.toLowerCase().includes(search) || (u.jobTitle || '').toLowerCase().includes(search))
+            );
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">No members found in this category.</div>';
+                return;
+            }
+
+            grid.innerHTML = filtered.map(u => {
+                const initials = u.fullName.split(' ').map(n => n[0]).join('');
+                const avatarHtml = u.profilePicture 
+                    ? `<img src="${u.profilePicture}" alt="Avatar">`
+                    : initials;
+                
+                return `
+                <div class="profile-card">
+                    <div class="card-cover"></div>
+                    <div class="card-body">
+                        <div class="profile-avatar">${avatarHtml}</div>
+                        <h3 onclick="window.location.href='profile.html?id=${u.id}'" style="cursor:pointer;">${u.fullName}</h3>
+                        <span class="tag-line">${u.jobTitle || 'Member'} ${u.company ? 'at ' + u.company : ''}</span>
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px;">
+                            <i class="fas fa-graduation-cap"></i> Batch ${u.graduationYear || 'N/A'} • ${u.department || 'General'}
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-follow" onclick="toggleFollow(this)">Follow</button>
+                            <button class="btn-message" onclick="openChat(${u.id})">Message</button>
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <a href="profile.html?id=${u.id}" style="font-size: 0.85rem; color: var(--primary); font-weight: 600; text-decoration: none;">View Full Profile</a>
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        function toggleFollow(btn) {
+            const isFollowing = btn.classList.toggle('following');
+            btn.innerText = isFollowing ? 'Following' : 'Follow';
+            const connSpan = document.getElementById('connCount');
+            if(connSpan) connSpan.innerText = parseInt(connSpan.innerText) + (isFollowing ? 1 : -1);
+        }
+
+        function openChat(userId) {
+            window.location.href = `messages.html?userId=${userId}`;
+        }
+
+        document.getElementById('directorySearch').addEventListener('input', renderDirectory);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | RCPIT Alumni Network</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://www.rcpit.ac.in/images/logo.png">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .profile-avatar-overlap {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-avatar-overlap:hover .camera-overlay {
+            opacity: 1;
+        }
+
+        .camera-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 5;
+        }
+
+        .profile-avatar-overlap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: inherit;
+        }
+
+        .profile-avatar-xs {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            overflow: hidden;
+            border: 2px solid white;
+            flex-shrink: 0;
+        }
+
+        .profile-avatar-xs img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-avatar-overlap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .edit-icon {
+            cursor: pointer;
+            color: var(--text-muted);
+            padding: 8px;
+            border-radius: 50%;
+            transition: background 0.2s, color 0.2s;
+            font-size: 1.1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .edit-icon:hover {
+            background: rgba(15, 23, 42, 0.05);
+            color: var(--accent);
+        }
+
+        .modal-content {
+            max-width: 600px;
+            width: 90%;
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            font-family: inherit;
+            resize: vertical;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar scrolled">
+        <div class="container nav-container">
+            <div class="logo-container">
+                <a href="profile.html" class="nav-profile-trigger" id="navProfileTrigger">
+                    <div class="profile-avatar-xs" id="navAvatar">U</div>
+                    <span class="nav-user-name" id="navUserName">User</span>
+                </a>
+                <a href="index.html" class="logo-group">
+                    <span class="logo-text">RCPIT <span style="color: var(--accent);">Connect</span></span>
+                </a>
+            </div>
+            <div class="nav-menu">
+                <ul>
+                    <li><a href="dashboard.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="alumni-list.html" class="nav-link"><i class="fas fa-users"></i> Network</a></li>
+                    <li><a href="jobs.html" class="nav-link"><i class="fas fa-briefcase"></i> Jobs</a></li>
+                    <li><a href="messages.html" class="nav-link"><i class="fas fa-envelope"></i> Messaging</a></li>
+                </ul>
+            </div>
+            <div class="nav-btns">
+                <a href="#" class="btn btn-outline btn-sm" id="logoutBtn">Sign Out</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="profile-container">
+        <!-- Main Content -->
+        <div class="profile-main">
+            <!-- Hero Card -->
+            <div class="card-linkedin profile-hero">
+                <div class="cover-photo"></div>
+                <div class="profile-avatar-overlap" id="userAvatarContainer" title="Change profile picture"
+                    style="position: absolute; top: 120px; left: 24px; width: 160px; height: 160px; border-radius: 50%; border: 4px solid white; overflow: hidden; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: 700; z-index: 10;">
+                    <span id="avatarInitials">U</span>
+                    <div class="camera-overlay" id="cameraOverlay">
+                        <i class="fas fa-camera" style="font-size: 1.5rem;"></i>
+                    </div>
+                    <input type="file" id="profilePictureInput" style="display: none;" accept="image/*">
+                </div>
+                <div class="profile-info-content" style="padding: 95px 24px 24px;">
+                    <div class="profile-top-actions">
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <h1 class="font-outfit" id="fullName" style="font-size: 1.8rem; margin: 0;">User Full
+                                    Name</h1>
+                                <i class="fas fa-pencil-alt edit-icon" id="editIntroBtn" title="Edit Introduction"></i>
+                            </div>
+                            <p class="headline" id="jobHeadline"
+                                style="margin-top: 5px; color: var(--text-main); font-weight: 500;">Software Engineer at
+                                RCPIT Labs</p>
+                            <p class="location-meta" style="margin-top: 5px;">
+                                <span id="userDept">Computer Dept</span> •
+                                <span id="userBatch">Batch of 2024</span> •
+                                <span id="userLocation">Shirpur, Maharashtra</span>
+                            </p>
+                            <div class="hero-btns" id="heroBtns" style="margin-top: 15px;">
+                                <button class="btn btn-primary">Open to</button>
+                                <button class="btn btn-outline">Add profile section</button>
+                                <button class="btn btn-outline" style="min-width: unset; width: 40px;"><i
+                                        class="fas fa-ellipsis-h"></i></button>
+                            </div>
+                        </div>
+                        <div class="company-edu-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-briefcase"></i>
+                                <span id="currRoleDisplay">Role</span> @ <span id="currCompanyDisplay">Company</span>
+                            </div>
+                            <div class="meta-item" style="margin-top: 8px;">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>R. C. Patel Institute of Technology</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <div class="card-linkedin section-card">
+                <div class="section-header"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 class="font-outfit" style="margin: 0;">About</h3>
+                    <i class="fas fa-pencil-alt edit-icon" id="editAboutBtn"></i>
+                </div>
+                <p id="aboutContent" style="white-space: pre-wrap; color: var(--text-main); line-height: 1.6;">Click
+                    edit to add a professional summary about your career journey and aspirations.</p>
+            </div>
+
+            <!-- Experience Section -->
+            <div class="card-linkedin section-card">
+                <div class="section-header"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 class="font-outfit" style="margin: 0;">Experience</h3>
+                    <i class="fas fa-pencil-alt edit-icon" id="editExpBtn"></i>
+                </div>
+                <div id="experienceContent" style="white-space: pre-wrap; color: var(--text-main); line-height: 1.6;">No
+                    experience details added.</div>
+            </div>
+
+            <!-- Education Section -->
+            <div class="card-linkedin section-card">
+                <div class="section-header"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 class="font-outfit" style="margin: 0;">Education</h3>
+                    <i class="fas fa-pencil-alt edit-icon" id="editEduBtn"></i>
+                </div>
+                <div id="educationContent" style="white-space: pre-wrap; color: var(--text-main); line-height: 1.6;">No
+                    education details added.</div>
+            </div>
+
+            <!-- Skills Section -->
+            <div class="card-linkedin section-card">
+                <div class="section-header"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 class="font-outfit" style="margin: 0;">Skills</h3>
+                    <i class="fas fa-pencil-alt edit-icon" id="editSkillsBtn"></i>
+                </div>
+                <div id="skillsContainer" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+                    <!-- Skills will be rendered here -->
+                </div>
+            </div>
+
+            <!-- Activity Section -->
+            <div class="card-linkedin section-card">
+                <div class="section-header">
+                    <h3 class="font-outfit">Recent Activity</h3>
+                </div>
+                <div class="activity-feed" id="myPostsContainer" style="margin-top: 15px;">
+                    <!-- Dynamic Posts -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="profile-sidebar">
+            <div class="card-linkedin section-card">
+                <h3 class="font-outfit" style="font-size: 1rem; margin-bottom: 1rem;">Public Profile & URL</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">www.rcpit-connect.com/in/user</p>
+            </div>
+
+            <div class="card-linkedin section-card">
+                <h3 class="font-outfit" style="font-size: 1rem; margin-bottom: 1rem;">Suggested for you</h3>
+                <div id="suggestedProfiles">
+                    <p style="font-size: 0.85rem; color: #666;">Complete your profile to see tailored suggestions.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Intro Modal -->
+    <div class="modal-overlay" id="introModal">
+        <div class="modal-content">
+            <h2 class="font-outfit">Edit Intro</h2>
+            <form id="introForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="editFullName" required>
+                </div>
+                <div class="form-group">
+                    <label>Job Title</label>
+                    <input type="text" id="editJobTitle" placeholder="e.g. Software Engineer">
+                </div>
+                <div class="form-group">
+                    <label>Company</label>
+                    <input type="text" id="editCompany" placeholder="e.g. RCPIT">
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" id="editLocation" placeholder="e.g. Shirpur, India">
+                </div>
+                <div class="form-group">
+                    <label>Department</label>
+                    <input type="text" id="editDepartment" placeholder="e.g. Computer Engineering">
+                </div>
+                <div class="form-group">
+                    <label>Graduation Year</label>
+                    <input type="number" id="editGradYear" placeholder="e.g. 2024">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('introModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div class="modal-overlay" id="aboutModal">
+        <div class="modal-content">
+            <h2 class="font-outfit">Edit About</h2>
+            <form id="aboutForm">
+                <div class="form-group">
+                    <label>Professional Summary</label>
+                    <textarea id="editAboutText" placeholder="Write a brief professional summary..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('aboutModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Experience Modal -->
+    <div class="modal-overlay" id="expModal">
+        <div class="modal-content">
+            <h2 class="font-outfit">Edit Experience</h2>
+            <form id="expForm">
+                <div class="form-group">
+                    <label>Professional Experience</label>
+                    <textarea id="editExpText" placeholder="Describe your work experiences..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('expModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Education Modal -->
+    <div class="modal-overlay" id="eduModal">
+        <div class="modal-content">
+            <h2 class="font-outfit">Edit Education</h2>
+            <form id="eduForm">
+                <div class="form-group">
+                    <label>Educational Background</label>
+                    <textarea id="editEduText" placeholder="Describe your degrees and academic history..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('eduModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Skills Modal -->
+    <div class="modal-overlay" id="skillsModal">
+        <div class="modal-content">
+            <h2 class="font-outfit">Edit Skills</h2>
+            <form id="skillsForm">
+                <div class="form-group">
+                    <label>Skills (Comma separated)</label>
+                    <input type="text" id="editSkillsText" placeholder="e.g. Java, Spring Boot, React">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('skillsModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container" style="text-align: center; color: #666; font-size: 0.9rem; padding: 40px 0;">
+            &copy; 2026 RCPIT Alumni Network • Professional Development Hub
+        </div>
+    </footer>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8080/api';
+        let currentUser = null;
+        let profileUser = null;
+        let isOwnProfile = true;
+
+        // Diagnostic helper
+        function safeSet(id, value, attr = 'textContent') {
+            const el = document.getElementById(id);
+            if (el) el[attr] = value || '';
+        }
+
+        async function init() {
+            console.log("Initializing profile page...");
+            const userJson = localStorage.getItem('user');
+            if (!userJson) {
+                console.log("No user found in localStorage, redirecting to login...");
+                window.location.href = 'login.html';
+                return;
+            }
+            currentUser = JSON.parse(userJson);
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetUserId = urlParams.get('id');
+
+            if (targetUserId && targetUserId != currentUser.id) {
+                console.log(`Viewing profile for user ${targetUserId}`);
+                isOwnProfile = false;
+                try {
+                    const response = await fetch(`${API_BASE_URL}/users/${targetUserId}`);
+                    if (!response.ok) throw new Error('User not found');
+                    profileUser = await response.json();
+                    setupProfileView(false);
+                } catch (err) {
+                    console.error("Error fetching target user:", err);
+                    alert("User profile not found.");
+                    window.location.href = 'dashboard.html';
+                }
+            } else {
+                console.log("Viewing own profile.");
+                profileUser = currentUser;
+                setupProfileView(true);
+            }
+        }
+
+        function setupProfileView(isOwn) {
+            console.log("Setting up profile view. Is own:", isOwn);
+
+            // Navbar updates
+            const navAvatar = document.getElementById('navAvatar');
+            const navUserName = document.getElementById('navUserName');
+            const myInitials = currentUser.fullName ? currentUser.fullName.split(' ').map(n => n[0]).join('') : 'U';
+
+            if (navAvatar) {
+                if (currentUser.profilePicture) navAvatar.innerHTML = `<img src="${currentUser.profilePicture}" alt="Avatar">`;
+                else navAvatar.textContent = myInitials;
+            }
+            if (navUserName && currentUser.fullName) navUserName.textContent = currentUser.fullName.split(' ')[0];
+
+            // Profile UI updates
+            const initials = profileUser.fullName ? profileUser.fullName.split(' ').map(n => n[0]).join('') : 'U';
+            const avatarInitials = document.getElementById('avatarInitials');
+            const userAvatarContainer = document.getElementById('userAvatarContainer');
+
+            if (avatarInitials) {
+                if (profileUser.profilePicture) avatarInitials.innerHTML = `<img src="${profileUser.profilePicture}" alt="Avatar">`;
+                else avatarInitials.textContent = initials;
+            }
+
+            if (!isOwn) {
+                const overlay = document.getElementById('cameraOverlay');
+                if (overlay) overlay.style.display = 'none';
+                if (userAvatarContainer) {
+                    userAvatarContainer.style.cursor = 'default';
+                    userAvatarContainer.title = '';
+                }
+            }
+
+            // Fill Identity Info
+            safeSet('fullName', profileUser.fullName);
+
+            const headline = profileUser.jobTitle ? `${profileUser.jobTitle} at ${profileUser.company || 'RCPIT'}` : (profileUser.role === 'student' ? 'Student at RCPIT' : 'RCPIT Alumni');
+            safeSet('jobHeadline', headline);
+            safeSet('userDept', profileUser.department || 'General');
+            safeSet('userBatch', `Batch of ${profileUser.graduationYear || '2024'}`);
+            safeSet('userLocation', profileUser.location || 'India');
+
+            safeSet('currRoleDisplay', profileUser.jobTitle || (profileUser.role === 'student' ? 'Student' : 'Professional'));
+            safeSet('currCompanyDisplay', profileUser.company || 'RCPIT');
+
+            // Sections
+            safeSet('aboutContent', profileUser.about || 'Click edit to add a professional summary about your career journey and aspirations.');
+            safeSet('experienceContent', profileUser.experience || 'No experience details added.');
+            safeSet('educationContent', profileUser.education || 'No education details added.');
+
+            renderSkills(profileUser.skills);
+
+            // Handle edit buttons and hero buttons
+            const editIcons = document.querySelectorAll('.edit-icon');
+            if (!isOwn) {
+                editIcons.forEach(icon => icon.style.display = 'none');
+                const heroBtns = document.getElementById('heroBtns');
+                if (heroBtns) {
+                    heroBtns.innerHTML = `
+                        <button class="btn btn-primary" onclick="window.location.href='messages.html?userId=${profileUser.id}'">Message</button>
+                        <button class="btn btn-outline">Follow</button>
+                    `;
+                }
+            } else {
+                editIcons.forEach(icon => icon.style.display = 'inline-flex');
+                setupEditListeners();
+            }
+
+            loadUserPosts(profileUser.id);
+        }
+
+        function renderSkills(skillsStr) {
+            const container = document.getElementById('skillsContainer');
+            if (!container) return;
+            container.innerHTML = '';
+            if (!skillsStr) {
+                container.innerHTML = '<p style="color: #666; font-size: 0.9rem;">No skills listed.</p>';
+                return;
+            }
+            const skills = skillsStr.split(',').map(s => s.trim()).filter(s => s);
+            skills.forEach(skill => {
+                const span = document.createElement('span');
+                span.className = 'job-tag';
+                span.style.cssText = 'padding: 8px 16px; background: #E2E8F0; border-radius: 20px; font-size: 0.85rem; font-weight: 600;';
+                span.textContent = skill;
+                container.appendChild(span);
+            });
+        }
+
+        async function loadUserPosts(uid) {
+            const container = document.getElementById('myPostsContainer');
+            if (!container) return;
+            try {
+                const response = await fetch(`${API_BASE_URL}/posts/author/${uid}`);
+                const posts = await response.json();
+                if (!posts || posts.length === 0) {
+                    container.innerHTML = `<p style="text-align: center; color: #666; padding: 20px;">No recent activity.</p>`;
+                    return;
+                }
+                container.innerHTML = posts.map(post => `
+                    <div class="post-card" style="border: 1px solid #e0e0e0; border-radius: 12px; padding: 1.5rem; margin-bottom: 15px; background: #fff;">
+                        <h4 style="font-size: 1.1rem; color: var(--primary-dark); margin-bottom: 8px;">${post.title}</h4>
+                        <p style="font-size: 0.95rem; color: #4b5563; margin-bottom: 12px; line-height: 1.5;">${post.content}</p>
+                        <div style="font-size: 0.85rem; color: #94A3B8; display: flex; gap: 20px;">
+                            <span><i class="far fa-thumbs-up"></i> ${post.likesCount || 0} Likes</span>
+                            <span><i class="far fa-comment"></i> ${post.commentsCount || 0} Comments</span>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                console.error("Error loading posts:", e);
+                container.innerHTML = '<p style="text-align:center; color: #ef4444;">Failed to load activity.</p>';
+            }
+        }
+
+        function setupEditListeners() {
+            // Profile Picture
+            const avatarContainer = document.getElementById('userAvatarContainer');
+            const fileInput = document.getElementById('profilePictureInput');
+            if (avatarContainer && fileInput) {
+                avatarContainer.onclick = (e) => {
+                    console.log("Avatar clicked, triggering file input");
+                    fileInput.click();
+                };
+                fileInput.onchange = async (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    console.log("File selected:", file.name);
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/users/${currentUser.id}/profile-picture`, {
+                            method: 'POST',
+                            body: formData
+                        });
+                        if (response.ok) {
+                            const updatedUser = await response.json();
+                            updateUserInStorage(updatedUser);
+                            window.location.reload();
+                        } else throw new Error("Upload failed");
+                    } catch (err) { alert('Upload failed: ' + err.message); }
+                };
+            }
+
+            // Modal Triggering and Data Loading
+            function bindModal(btnId, modalId, fieldLoader) {
+                const btn = document.getElementById(btnId);
+                if (btn) {
+                    btn.onclick = (e) => {
+                        console.log(`Opening modal ${modalId} via ${btnId}`);
+                        e.stopPropagation();
+                        fieldLoader();
+                        openModal(modalId);
+                    };
+                } else {
+                    console.warn(`Button ${btnId} not found in DOM`);
+                }
+            }
+
+            bindModal('editIntroBtn', 'introModal', () => {
+                document.getElementById('editFullName').value = profileUser.fullName || '';
+                document.getElementById('editJobTitle').value = profileUser.jobTitle || '';
+                document.getElementById('editCompany').value = profileUser.company || '';
+                document.getElementById('editLocation').value = profileUser.location || '';
+                document.getElementById('editDepartment').value = profileUser.department || '';
+                document.getElementById('editGradYear').value = profileUser.graduationYear || '';
+            });
+
+            bindModal('editAboutBtn', 'aboutModal', () => {
+                document.getElementById('editAboutText').value = profileUser.about || '';
+            });
+
+            bindModal('editExpBtn', 'expModal', () => {
+                document.getElementById('editExpText').value = profileUser.experience || '';
+            });
+
+            bindModal('editEduBtn', 'eduModal', () => {
+                document.getElementById('editEduText').value = profileUser.education || '';
+            });
+
+            bindModal('editSkillsBtn', 'skillsModal', () => {
+                document.getElementById('editSkillsText').value = profileUser.skills || '';
+            });
+
+            // Form Submissions
+            function bindSubmit(formId, modalId, dataCollector) {
+                const form = document.getElementById(formId);
+                if (form) {
+                    form.onsubmit = async (e) => {
+                        e.preventDefault();
+                        const submitBtn = form.querySelector('button[type="submit"]');
+                        const originalText = submitBtn.textContent;
+                        submitBtn.disabled = true;
+                        submitBtn.textContent = 'Saving...';
+
+                        try {
+                            const updatedData = dataCollector();
+                            await saveProfile(updatedData);
+                            closeModal(modalId);
+                        } catch (err) {
+                            console.error(`Error submitting ${formId}:`, err);
+                            alert("Failed to save changes.");
+                        } finally {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = originalText;
+                        }
+                    };
+                }
+            }
+
+            bindSubmit('introForm', 'introModal', () => ({
+                ...profileUser,
+                fullName: document.getElementById('editFullName').value,
+                jobTitle: document.getElementById('editJobTitle').value,
+                company: document.getElementById('editCompany').value,
+                location: document.getElementById('editLocation').value,
+                department: document.getElementById('editDepartment').value,
+                graduationYear: parseInt(document.getElementById('editGradYear').value) || null
+            }));
+
+            bindSubmit('aboutForm', 'aboutModal', () => ({ ...profileUser, about: document.getElementById('editAboutText').value }));
+            bindSubmit('expForm', 'expModal', () => ({ ...profileUser, experience: document.getElementById('editExpText').value }));
+            bindSubmit('eduForm', 'eduModal', () => ({ ...profileUser, education: document.getElementById('editEduText').value }));
+            bindSubmit('skillsForm', 'skillsModal', () => ({ ...profileUser, skills: document.getElementById('editSkillsText').value }));
+        }
+
+        async function saveProfile(updatedData) {
+            console.log("Saving profile data...", updatedData);
+            try {
+                const response = await fetch(`${API_BASE_URL}/users/${currentUser.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedData)
+                });
+                if (response.ok) {
+                    const result = await response.json();
+                    updateUserInStorage(result);
+                    profileUser = result;
+                    setupProfileView(true);
+                } else {
+                    const errorText = await response.text();
+                    throw new Error(errorText || "Server error");
+                }
+            } catch (e) {
+                console.error("Save failed:", e);
+                throw e;
+            }
+        }
+
+        function updateUserInStorage(user) {
+            localStorage.setItem('user', JSON.stringify(user));
+            currentUser = user;
+        }
+
+        function openModal(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.style.display = 'flex';
+                document.body.style.overflow = 'hidden'; // Prevent background scroll
+            }
+        }
+
+        function closeModal(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Global listeners
+        document.getElementById('logoutBtn').onclick = (e) => {
+            e.preventDefault();
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        };
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+
+</html>
