@@ -216,13 +216,14 @@
                 userData.jobTitle = formData.get('jobtitle');
             }
 
+            const btn = this.querySelector('button');
+            const originalText = btn.innerHTML;
+
             try {
-                const btn = this.querySelector('button');
-                const originalText = btn.innerHTML;
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
                 btn.disabled = true;
 
-                const response = await fetch('http://localhost:8080/api/users/register', {
+                const response = await fetch('/api/users/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -242,7 +243,6 @@
             } catch (error) {
                 console.error('Error during registration:', error);
                 alert('Error connecting to the server. Make sure the backend is running.');
-                const btn = this.querySelector('button');
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }
